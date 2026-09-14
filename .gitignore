@@ -1,0 +1,18 @@
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Large/local data
+data/raw/
+*.gz
+*.xlsx
+
+# Generated/intermediate files
+results/intermediate/
+*.hdf5
+
+# Raw data files (available on GEO - too large for GitHub)
+02_Data/RNA-Seq/Count_S1F.txt
+02_Data/RNA-Seq/TPM_S1G.txt
+*.txt.gz
