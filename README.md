@@ -79,6 +79,17 @@ Downstream analysis included variance decomposition, factor visualization, facto
 
 Six factors showed the strongest convergent biological, clinical, longitudinal, and multi-omic evidence. Factor 5 showed the strongest positive association with disease acuity, Factor 1 showed a strong negative association, and Factor 4 showed the strongest longitudinal increase.
 
+###Key Result
+- 20,044 RNA-seq genes analyzed
+- 458 significant COVID-related DEGs
+- 12-gene core molecular signature
+- 635 longitudinal COVID-positive RNA-seq samples
+- 1,429 plasma protein assays
+- 42 significant D0 plasma proteins
+- 631 matched RNA–protein patient-timepoint observations
+- 15 MOFA2 latent factors
+- 6 key MOFA2 factors with convergent biological, clinical, and longitudinal evidence
+
 ## Biological Interpretation
 
 The integrated results support a dynamic molecular landscape in hospitalized COVID-19 characterized by:
