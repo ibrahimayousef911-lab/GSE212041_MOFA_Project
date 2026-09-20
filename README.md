@@ -119,14 +119,12 @@ from:
 303 patients
 
 with:
-
 D0 = 298
 D3 = 206
 D7 = 127
-
 The original RNA and proteomics datasets were retained separately for their individual analyses, while the matched observations were used for multi-omics integration.
 
-Analysis Workflow
+##Analysis Workflow
 R Basics
    ↓
 Data Manipulation
@@ -172,6 +170,7 @@ Clinical Associations
 Longitudinal Factor Trajectories
    ↓
 Biological Interpretation
+
 1. RNA-seq Analysis
 
 The transcriptomic analysis began with sample and metadata validation, RNA-seq quality control, and exploratory analysis.
@@ -236,7 +235,6 @@ with:
 54 genes shared across the three major pathways.
 
 Among these, 12 genes were significantly upregulated:
-
 CCNA2
 ORC1
 CCNA1
@@ -342,13 +340,13 @@ the analysis identified:
 under the project-specific significance and effect-size criteria.
 
 The significant proteins included immune- and inflammatory-associated proteins such as:
-
 CXCL10
 CXCL11
 CCL7
 CCL8
 CCL16
 CCL24
+
 7. Proteomic Functional Enrichment
 
 The significant proteomic features were mapped to biological processes.
@@ -358,7 +356,6 @@ The strongest enrichment was associated with:
 chemokine-mediated signaling and cellular responses to chemokines.
 
 Seven proteins contributed to the enriched GO biological processes:
-
 CXCL10
 CCL7
 CCL8
@@ -366,8 +363,8 @@ CXCL11
 CCL16
 CCL24
 TFF2
-
 These were interpreted as proteins contributing to the enriched biological processes rather than treating every contributing protein as a chemokine.
+
 
 8. RNA–Protein Metadata Integration
 
@@ -395,11 +392,9 @@ from:
 303 patients
 
 with:
-
 D0 = 298
 D3 = 206
 D7 = 127
-
 The RNA and protein observations were aligned using identical identifiers before multi-omics modeling.
 
 9. Multi-Omics Integration Using MOFA2
@@ -409,7 +404,6 @@ The central integration analysis was performed using:
 MOFA2 — Multi-Omics Factor Analysis
 
 Two molecular views were integrated:
-
 RNA
 2,000 highly variable genes
 
@@ -425,7 +419,6 @@ MOFA2
         ↓
 
 15 latent factors
-
 The model was trained using:
 
 631 matched patient-timepoint observations
@@ -466,14 +459,12 @@ This connected latent factors with their molecular features, biological pathways
 12. Key MOFA2 Factors
 
 Six factors showed convergent evidence across variance contribution, longitudinal behavior, clinical association, and/or functional enrichment:
-
 Factor 5
 Factor 1
 Factor 6
 Factor 3
 Factor 4
 Factor 2
-
 These factors represent different components of the integrated molecular structure rather than a simple ranking.
 
 Factor 5
@@ -502,11 +493,9 @@ Negative regulation of viral genome replication
 Factor 4
 
 Factor 4 showed the strongest longitudinal increase among the key factors:
-
 D3 − D0 ≈ +1.41
 D7 − D0 ≈ +2.19
 D7 − D3 ≈ +0.72
-
 This factor therefore captured a strong temporal component of the integrated molecular response.
 
 Other Key Factors
@@ -524,7 +513,6 @@ Feature weights were used to identify the molecular measurements contributing mo
 For every factor, the top RNA and protein features were extracted and visualized.
 
 The interpretation follows:
-
 MOFA2 Factor
      ↓
 Top RNA Features
@@ -534,7 +522,6 @@ Top Protein Features
 Biological Pathways
      ↓
 Clinical / Longitudinal Pattern
-
 The repository contains dedicated RNA and protein feature-weight heatmaps.
 
 14. MOFA2 GO-BP Enrichment
@@ -562,9 +549,7 @@ with biological themes involving immune, antiviral, inflammatory, and other dise
 MOFA2 factor scores were evaluated against clinical acuity and across longitudinal timepoints.
 
 The main trajectory framework was:
-
 D0 → D3 → D7
-
 Significant longitudinal changes were observed among the key factors.
 
 This analysis shifts the interpretation from individual genes and proteins toward coordinated multi-omic molecular programs changing over time.
@@ -642,7 +627,7 @@ Factor–acuity associations
 
 Additional QC and supporting figures are available in the supplementary figures directory.
 
-Repository Structure
+##Repository Structure
 GSE212041_MOFA_Project/
 │
 ├── 01_Project_Overview/
@@ -657,7 +642,8 @@ GSE212041_MOFA_Project/
 ├── README.md
 ├── LICENSE
 └── .gitignore
-Analysis Scripts
+
+##Analysis Scripts
 08_Scripts/
 │
 ├── 00_Project_Setup.R
@@ -674,6 +660,7 @@ Analysis Scripts
 ├── 11_MOFA2_Training.R
 ├── 12_MOFA2_Downstream_Analysis.R
 └── 13_Final_Figures_Tables.R
+
 Software & Methods
 
 The project was developed primarily in R 4.6.1.
@@ -757,7 +744,6 @@ Multi-Omics Integration
 MOFA2
 ↓
 Biological Interpretation
-
 This is my first project — but definitely not my last.
 
 Full Repository
