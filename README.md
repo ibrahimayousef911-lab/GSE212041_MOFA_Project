@@ -738,7 +738,7 @@ Biological Interpretation
 
 ---
 
-## 🔗 Full Repository
+##  Full Repository
 
 [GSE212041_MOFA2_Project](https://github.com/ibrahimayousef911-lab/GSE212041_MOFA2_Project)
 
