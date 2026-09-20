@@ -1,0 +1,2 @@
+"category","subcategory","ID","Description","GeneRatio","BgRatio","RichFactor","FoldEnrichment","zScore","pvalue","p.adjust","qvalue","geneID","Count"
+"Metabolism","Global and overview maps","hsa01100","Metabolic pathways","25/79","150/936",0.166666666666667,1.9746835443038,3.95300105736678,0.000222048636748628,0.0277560795935785,0.0277560795935785,"4907/10135/2938/8942/3162/79077/30/51056/5320/6470/6652/127/1890/51540/5805/410/6482/65220/957/2203/6241/6609/216/6480/95",25

@@ -1,0 +1,7 @@
+"Direction","Panel","Protein_Count"
+"Positive","INFLAMMATION",5
+"Positive","NEUROLOGY",5
+"Positive","ONCOLOGY",5
+"Positive","CARDIOMETABOLIC",4
+"Negative","CARDIOMETABOLIC",6
+"Negative","NEUROLOGY",3

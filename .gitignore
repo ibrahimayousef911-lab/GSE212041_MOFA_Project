@@ -19,3 +19,13 @@ results/intermediate/
 
 # RDS files (large intermediate files)
 *.rds
+
+# RDS files (large intermediate files)
+*.rds
+
+# Large intermediate files
+*Background*
+*Mapping*
+*Universe*
+*Plot_Data*
+*Annotated*

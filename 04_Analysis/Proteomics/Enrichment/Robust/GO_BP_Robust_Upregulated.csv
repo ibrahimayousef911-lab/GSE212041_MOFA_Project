@@ -1,0 +1,2 @@
+"ID","Description","GeneRatio","BgRatio","RichFactor","FoldEnrichment","zScore","pvalue","p.adjust","qvalue","geneID","Count"
+"GO:0009117","nucleotide metabolic process","12/89","48/1367",0.25,3.83988764044944,5.28389653007566,2.775641663973e-05,0.0423840482088677,0.0267979586291864,"SHMT1/NADK/IFNG/NAMPT/DCTPP1/KYNU/HSPA1A/ENTPD5/FBP1/RRM2/TYMP/NT5E",12
