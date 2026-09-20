@@ -16,3 +16,6 @@ results/intermediate/
 02_Data/RNA-Seq/Count_S1F.txt
 02_Data/RNA-Seq/TPM_S1G.txt
 *.txt.gz
+
+# RDS files (large intermediate files)
+*.rds

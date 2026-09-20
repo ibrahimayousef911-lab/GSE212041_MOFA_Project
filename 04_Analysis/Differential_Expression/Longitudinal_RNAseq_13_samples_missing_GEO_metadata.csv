@@ -1,0 +1,14 @@
+"sample_id","geo_accession","patient_category","covid_status","time_point","acuity","cell_type","rna_sample_id","sizeFactor","sample_title","Patient_ID","Timepoint","COVID_status_GEO","Patient_category_GEO","Acuity_max_GEO","Cell_type_GEO","Timepoint_GEO"
+"15_D7","GSM6507645","COVID+",1,"D7","1","Enriched neutrophils from whole blood","15_D7",3.49367732262928,NA,NA,NA,NA,NA,NA,NA,NA
+"15_DE","GSM6507646","COVID+",1,"DE","1","Enriched neutrophils from whole blood","15_DE",1.6412861173613,NA,NA,NA,NA,NA,NA,NA,NA
+"158_DE","GSM6507922","COVID+",1,"DE","3","Enriched neutrophils from whole blood","158_DE",2.39986152879817,NA,NA,NA,NA,NA,NA,NA,NA
+"175_D7","GSM6507954","COVID+",1,"D7","3","Enriched neutrophils from whole blood","175_D7",1.11883098140314,NA,NA,NA,NA,NA,NA,NA,NA
+"182_D7","GSM6507966","COVID+",1,"D7","2","Enriched neutrophils from whole blood","182_D7",3.88987469236708,NA,NA,NA,NA,NA,NA,NA,NA
+"196_DE","GSM6507997","COVID+",1,"DE","2","Enriched neutrophils from whole blood","196_DE",2.22104681628308,NA,NA,NA,NA,NA,NA,NA,NA
+"311_DE","GSM6508228","COVID+",1,"DE","2","Enriched neutrophils from whole blood","311_DE",2.47936574130666,NA,NA,NA,NA,NA,NA,NA,NA
+"352_D7","GSM6508317","COVID+",1,"D7","2","Enriched neutrophils from whole blood","352_D7",2.37270640387616,NA,NA,NA,NA,NA,NA,NA,NA
+"352_DE","GSM6508318","COVID+",1,"DE","2","Enriched neutrophils from whole blood","352_DE",2.11218267015532,NA,NA,NA,NA,NA,NA,NA,NA
+"355_D7","GSM6508328","COVID+",1,"D7","2","Enriched neutrophils from whole blood","355_D7",2.33808229837923,NA,NA,NA,NA,NA,NA,NA,NA
+"355_DE","GSM6508329","COVID+",1,"DE","2","Enriched neutrophils from whole blood","355_DE",0.683030627771543,NA,NA,NA,NA,NA,NA,NA,NA
+"362_D7","GSM6508346","COVID+",1,"D7","3","Enriched neutrophils from whole blood","362_D7",0.945493953394957,NA,NA,NA,NA,NA,NA,NA,NA
+"368_D7","GSM6508361","COVID+",1,"D7","3","Enriched neutrophils from whole blood","368_D7",3.4572391288924,NA,NA,NA,NA,NA,NA,NA,NA

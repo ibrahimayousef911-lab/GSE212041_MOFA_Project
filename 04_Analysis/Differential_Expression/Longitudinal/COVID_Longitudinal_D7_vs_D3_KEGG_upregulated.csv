@@ -1,0 +1,5 @@
+"category","subcategory","ID","Description","GeneRatio","BgRatio","RichFactor","FoldEnrichment","zScore","pvalue","p.adjust","qvalue","geneID","Count"
+"Human Diseases","Infectious disease: bacterial","hsa05150","Staphylococcus aureus infection","2/2","99/9424",0.0202020202020202,95.1919191919192,13.7260275543636,0.000109253863005791,0.000437015452023162,NA,"1667/1668",2
+"Organismal Systems","Immune system","hsa04621","NOD-like receptor signaling pathway","2/2","187/9424",0.0106951871657754,50.3957219251337,9.93991594725701,0.000391678814993549,0.000603587616688351,NA,"1667/1668",2
+"Human Diseases","Cancer: overview","hsa05202","Transcriptional misregulation in cancer","2/2","201/9424",0.00995024875621891,46.8855721393035,9.58023404569725,0.000452690712516263,0.000603587616688351,NA,"1667/1668",2
+"Cellular Processes","Transport and catabolism","hsa04145","Phagocytosis","2/2","260/9424",0.00769230769230769,36.2461538461538,8.39641526865378,0.000758313248279731,0.000758313248279731,NA,"1667/1668",2
