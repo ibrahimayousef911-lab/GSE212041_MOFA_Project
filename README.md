@@ -1,4 +1,3 @@
-```markdown
 # GSE212041 Longitudinal Multi-Omics Analysis
 
 ![R](https://img.shields.io/badge/R-4.6.1-blue)
@@ -32,94 +31,46 @@ Rather than focusing only on individual biomarkers, the project investigates bro
 
 ---
 
-## Data Sources
+## Data Sources & Provenance
 
-### Transcriptomic Data
+This project integrates data from **two distinct sources**:
 
-The RNA-seq component was obtained from the public NCBI GEO dataset GSE212041.
+### 1. Transcriptomic Data (RNA-seq)
+- **Source:** NCBI GEO
+- **Accession:** [GSE212041](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212041)
+- **Data:** Gene expression counts, sample metadata, clinical annotations.
 
-The transcriptomic data and associated sample metadata provided information including:
+### 2. Plasma Olink Proteomics & Clinical Metadata
+- **Source:** Filbin et al. (Supplementary Tables)
+- **Paper Title:** *"Plasma proteomics reveals tissue-specific cell death and mediators of cell-cell interactions in severe COVID-19 patients"*
+- **Data Used:**
+  - Olink Proteomics (Supplementary Table 2)
+  - Clinical Metadata (Supplementary Table 1)
+  - Olink Assay Annotation
+  - Additional Supplementary Tables (3–7)
 
-- Gene expression counts
-- GEO sample accession
-- Patient/sample identifiers
-- COVID-19 status
-- Patient category
-- Timepoint
-- Clinical acuity
-- Cell-type information
+### 3. Data Integration
+- RNA-seq and Proteomics datasets were matched at the **patient-timepoint** level.
+- Final integrated dataset: **631 patient-timepoint observations** from **303 patients** (D0 = 298, D3 = 206, D7 = 127).
 
-The primary transcriptomic analysis contained **20,044 genes**.
-
-### Plasma Proteomics Data
-
-The plasma proteomics component was obtained from the Olink plasma proteomics data associated with the GSE212041 study.
-
-The proteomics dataset contained:
-
-- **784 samples**
-- **1,429 Olink protein assays**
-
-The corresponding Olink assay annotation was used to connect assay identifiers with:
-
-- Assay names
-- UniProt identifiers
-- Olink panel information
-- Panel version information
-
-OlinkID was retained as the primary assay identifier in order to preserve assay-level information and avoid incorrectly collapsing measurements from different panels.
-
-The proteomics data were independently quality-controlled and then integrated with the clinical/sample metadata.
-
-### Clinical and Sample Metadata
-
-Clinical and sample metadata were used to connect the transcriptomic and proteomic measurements.
-
-The metadata included:
-
-- Patient ID
-- Sample ID
-- GEO accession
-- COVID-19 status
-- Patient category
-- Timepoint
-- Clinical acuity
-- Cell type
-- Sample/draw information
-
-This metadata layer was essential for identifying repeated measurements from the same patients and constructing the longitudinal and multi-omics cohorts.
+> **Note:** Raw RNA-seq data files are not included due to GitHub file size limitations. Please download them directly from GEO.
 
 ---
 
-## Data Integration Strategy
+## Statistical Design
 
-The project integrates the three main data layers:
+The project applies **two complementary statistical designs**:
 
-```
+### 1. Cross-Sectional Analysis
+- Comparison: **COVID-positive vs COVID-symptomatic controls**
+- Performed **separately per timepoint** where relevant.
+- Avoids confounding between COVID status and timepoint.
 
-GSE212041 RNA-seq
-+
-Olink Plasma Proteomics
-+
-Clinical / Sample Metadata
-↓
-Patient-Level & Timepoint Matching
-↓
-Integrated RNA–Protein Dataset
-↓
-MOFA2 Multi-Omics Analysis
-
-```
-
-The RNA and protein datasets were matched using a patient-timepoint identifier.
-
-The final matched multi-omics dataset contained **631 patient-timepoint observations** from **303 patients**, with:
-
-- D0 = 298
-- D3 = 206
-- D7 = 127
-
-The original RNA and proteomics datasets were retained separately for their individual analyses, while the matched observations were used for multi-omics integration.
+### 2. Longitudinal Analysis (Within-Patient)
+- Paired comparisons: **D3 vs D0**, **D7 vs D0**, **D7 vs D3**
+- Complete-case cohort: **115 patients** with D0/D3/D7 measurements
+- Within-patient trajectory analysis, PCA trajectory, Friedman tests, and pathway recurrence.
+- Leverages repeated measures from the same patient.
 
 ---
 
@@ -127,95 +78,37 @@ The original RNA and proteomics datasets were retained separately for their indi
 
 ![Workflow](01_Project_Overview/workflow_diagram.png)
 
-```
+R Basics → Data Manipulation → Data Visualization → Statistics
+→ RNA-seq QC → Differential Expression → Enrichment → GSEA
+→ Core Gene Signature → PPI / Network Analysis
+→ Longitudinal Transcriptomics → Plasma Proteomics
+→ Proteomic QC → Proteomic Differential Analysis → Proteomic Enrichment
+→ Metadata Integration → RNA–Protein Matching
+→ MOFA2 Integration → Factor Analysis → Feature-Weight Analysis
+→ Clinical Associations → Longitudinal Factor Trajectories
+→ Biological Interpretation
 
-R Basics
-↓
-Data Manipulation
-↓
-Data Visualization
-↓
-Statistics
-↓
-RNA-seq Quality Control
-↓
-Differential Expression
-↓
-Functional Enrichment
-↓
-GSEA
-↓
-Core Gene Signature
-↓
-PPI / Network Analysis
-↓
-Longitudinal Transcriptomics
-↓
-Plasma Proteomics
-↓
-Proteomic Quality Control
-↓
-Proteomic Differential Analysis
-↓
-Proteomic Enrichment
-↓
-Metadata Integration
-↓
-RNA–Protein Matching
-↓
-MOFA2 Multi-Omics Integration
-↓
-Factor Analysis
-↓
-Feature-Weight Analysis
-↓
-Clinical Associations
-↓
-Longitudinal Factor Trajectories
-↓
-Biological Interpretation
-
-```
+`
 
 ---
 
-## 1. RNA-seq Analysis
-
-The transcriptomic analysis began with sample and metadata validation, RNA-seq quality control, and exploratory analysis.
-
-The primary transcriptomic dataset contained **20,044 genes**.
+## 1. RNA-seq AnalysiCOVID-positive vs COVID-symptomatic controls**20,044 genes**.
 
 The main comparison was: **COVID-positive vs COVID-symptomatic controls**.
-
 The differential-expression analysis identified:
-
-- **458 significant DEGs**
+- 458 significant DEGs
 - 406 upregulated genes
 - 52 downregulated genes
 
-The transcriptomic results were explored using:
-
-- PCA
-- Volcano plots
-- Differential-expression heatmaps
-- Statistical summaries
+Results were explored using PCA, Volcano plots, Heatmaps, and statistical summaries.
 
 ---
 
 ## 2. Functional Enrichment & GSEA
 
-Differentially expressed genes were investigated using:
+Differentially expressed genes were investigated using GO (BP/MF/CC), KEGG, and Reactome. Ranked gene statistics were analyzed using GSEA.
 
-- Gene Ontology Biological Process
-- Gene Ontology Molecular Function
-- Gene Ontology Cellular Component
-- KEGG
-- Reactome
-
-Ranked gene-level statistics were also analyzed using Gene Set Enrichment Analysis (GSEA).
-
-The main biological programs identified across the transcriptomic analyses included:
-
+Main biological programs:
 - Antiviral responses
 - Interferon signaling
 - Innate immune responses
@@ -224,53 +117,36 @@ The main biological programs identified across the transcriptomic analyses inclu
 - DNA replication
 - Chromatin-related processes
 
-Strong Reactome GSEA signals included:
-
-- G2/M Checkpoints
-- Cell Cycle Checkpoints
-- DNA Replication
+Strong Reactome GSEA signals: G2/M Checkpoints, Cell Cycle Checkpoints, DNA Replication.
 
 ---
 
 ## 3. Core Gene Signature & Network Analysis
 
-Leading-edge genes from the major recurring Reactome pathways were compared to identify a focused molecular signature.
+Leading-edge gene analysis produced:
+- 159 unique leading-edge genes
+- 54 genes shared across the three major pathways
+- 12 significantly upregulated core genes:
+  CCNA2, ORC1, CCNA1, CDC6, CDC45, MCM4, MCM2, MCM10, H2BC5, H2BC17, H2BC9, H2BC7
 
-This produced **159 unique leading-edge genes**, with **54 genes shared across the three major pathways**.
+These represent:
+- Cell Cycle: CCNA1, CCNA2
+- DNA Replication: CDC6, CDC45, MCM2, MCM4, MCM10, ORC1
+- Histone / Chromatin: H2BC5, H2BC7, H2BC9, H2BC17
 
-Among these, 12 genes were significantly upregulated:
-
-```
-
-CCNA2, ORC1, CCNA1, CDC6, CDC45, MCM4,
-MCM2, MCM10, H2BC5, H2BC17, H2BC9, H2BC7
-
-```
-
-The signature mainly represented:
-
-- **Cell Cycle:** CCNA1, CCNA2
-- **DNA Replication:** CDC6, CDC45, MCM2, MCM4, MCM10, ORC1
-- **Histone / Chromatin:** H2BC5, H2BC7, H2BC9, H2BC17
-
-The 12-gene signature was further investigated using STRINGdb and protein–protein interaction analysis.
-
-The resulting network contained **43 STRING interactions**, with degree, betweenness, and closeness centrality used to characterize network topology.
+The 12-gene signature was analyzed using STRINGdb PPI analysis, producing 43 STRING interactions with degree, betweenness, and closeness centrality.
 
 ---
 
 ## 4. Longitudinal Transcriptomic Analysis
 
-The transcriptomic analysis was extended from cross-sectional comparisons to patient-level longitudinal analysis.
-
 The COVID-positive longitudinal cohort contained:
-
-- **635 samples**
-- **304 patients**
+- 635 samples
+- 304 patients
 - D0, D3, and D7 measurements
-- **115 patients** with complete D0/D3/D7 measurements
+- 115 patients with complete D0/D3/D7 measurements
 
-The main within-patient comparisons were:
+Main within-patient comparisons:
 
 | Comparison | Significant genes |
 |------------|-------------------|
@@ -280,265 +156,108 @@ The main within-patient comparisons were:
 
 The largest transcriptomic remodeling occurred between D0 and D7.
 
-Longitudinal enrichment highlighted recurring biological programs involving antiviral responses, interferon signaling, innate immunity, inflammatory signaling, neutrophil-related processes, and disease-associated molecular pathways.
+Longitudinal enrichment highlighted antiviral, interferon, innate immunity, inflammatory, neutrophil-related, and disease-associated programs.
 
 ---
 
 ## 5. Plasma Proteomics Analysis
 
-The plasma proteomics component provided a complementary molecular layer to the transcriptomic analysis.
+The Olink dataset contained:
+- 784 samples
+- 1,429 protein assays
 
-The Olink dataset contained **784 samples** and **1,429 protein assays**.
-
-Proteomic quality control included:
-
-- Numeric validation
-- Assay completeness
-- Missing-value assessment
-- Sample-level QC
-- Assay annotation
-- UniProt mapping
-- Clinical metadata matching
-- Duplicate patient-timepoint assessment
-
-The overall missingness was extremely low.
-
-The Olink assays were retained using their unique OlinkID identifiers to preserve assay-level information.
+Proteomic QC included: numeric validation, assay completeness, missing-value assessment, sample-level QC, UniProt mapping, clinical metadata matching, and duplicate patient-timepoint assessment. Overall missingness was extremely low.
 
 ---
 
 ## 6. Proteomic Differential Analysis
 
-Baseline plasma proteomic differences were analyzed at D0 between **COVID-positive vs COVID-negative samples**.
+Baseline D0 comparison: COVID-positive vs COVID-negative.
 
-Across the **1,429 protein assays**, the analysis identified **42 significant proteins** under the project-specific significance and effect-size criteria.
-
-The significant proteins included immune- and inflammatory-associated proteins such as:
-
-```
-
+Across 1,429 protein assays, the analysis identified 42 significant proteins, including immune- and inflammatory-associated proteins:
 CXCL10, CXCL11, CCL7, CCL8, CCL16, CCL24
-
-```
 
 ---
 
 ## 7. Proteomic Functional Enrichment
 
-The significant proteomic features were mapped to biological processes.
-
-The strongest enrichment was associated with chemokine-mediated signaling and cellular responses to chemokines.
-
-Seven proteins contributed to the enriched GO biological processes:
-
-```
-
+The strongest enrichment was associated with chemokine-mediated signaling. Seven proteins contributed:
 CXCL10, CCL7, CCL8, CXCL11, CCL16, CCL24, TFF2
-
-```
-
-These were interpreted as proteins contributing to the enriched biological processes rather than treating every contributing protein as a chemokine.
 
 ---
 
 ## 8. RNA–Protein Metadata Integration
 
-The transcriptomic and proteomic datasets were integrated using the available clinical and sample metadata.
+The transcriptomic and proteomic datasets were integrated using clinical and sample metadata (Patient ID, Sample ID, GEO accession, COVID status, patient category, timepoint, acuity, cell type).
 
-The matching process used:
-
-- Patient ID
-- Sample ID
-- GEO accession
-- COVID status
-- Patient category
-- Timepoint
-- Acuity
-- Cell type
-
-The two molecular layers were matched using a patient-timepoint identifier.
-
-The final matched dataset contained **631 patient-timepoint observations** from **303 patients**, with:
-
-- D0 = 298
-- D3 = 206
-- D7 = 127
-
-The RNA and protein observations were aligned using identical identifiers before multi-omics modeling.
+Final matched dataset: 631 patient-timepoint observations from 303 patients (D0 = 298, D3 = 206, D7 = 127).
 
 ---
 
 ## 9. Multi-Omics Integration Using MOFA2
 
-The central integration analysis was performed using **MOFA2 — Multi-Omics Factor Analysis**.
+MOFA2 (Multi-Omics Factor Analysis) integrated two molecular views:
+- RNA: 2,000 highly variable genes
+- Protein: 1,000 highly variable proteins
 
-Two molecular views were integrated:
-
-```
-
-RNA: 2,000 highly variable genes
-+
-Protein: 1,000 highly variable proteins
-↓
-MOFA2
-↓
-15 latent factors
-
-```
-
-The model was trained using **631 matched patient-timepoint observations** and generated **15 latent molecular factors** representing coordinated variation across the transcriptomic and proteomic layers.
+Trained on 631 matched patient-timepoint observations, generating 15 latent molecular factors.
 
 ---
 
 ## 10. MOFA2 Variance Decomposition
-
-The trained model explained:
 
 | Molecular View | Variance Explained |
 |----------------|-------------------|
 | RNA            | 48.42%            |
 | Protein        | 62.50%            |
 
-Variance decomposition was examined at both the global and individual-factor levels to understand the contribution of different latent factors to each molecular view.
-
 ---
 
 ## 11. MOFA2 Downstream Analysis
 
-The trained MOFA2 model was investigated using downstream analyses including:
-
-- Factor visualization
-- Factor combinations
-- Factor scores
-- Factor trajectories
-- Feature weights
-- RNA/protein contribution analysis
-- Clinical associations
-- GO biological-process enrichment
-- Heatmap visualization
-- Scatter plots
-
-This connected latent factors with their molecular features, biological pathways, clinical associations, and longitudinal behavior.
+Analyses included: factor visualization, factor combinations, factor scores, factor trajectories, feature weights, RNA/protein contribution analysis, clinical associations, GO-BP enrichment, heatmaps, and scatter plots.
 
 ---
 
 ## 12. Key MOFA2 Factors
 
-Six factors showed convergent evidence across variance contribution, longitudinal behavior, clinical association, and/or functional enrichment:
-
-**Factor 5, Factor 1, Factor 6, Factor 3, Factor 4, Factor 2**
-
-These factors represent different components of the integrated molecular structure rather than a simple ranking.
-
-### Factor 5
-
-Factor 5 showed a strong positive association with clinical acuity:
-
-**Spearman ρ ≈ +0.654**
-
-Its biological enrichment included:
-
-- Adaptive immune response
-- Immune system process
-- Immune response
-
-### Factor 1
-
-Factor 1 showed a strong negative association with clinical acuity:
-
-**Spearman ρ ≈ −0.500**
-
-Its biological enrichment included:
-
-- Innate immune response
-- Defense response to virus
-- Response to virus
-- Negative regulation of viral genome replication
-
-### Factor 4
-
-Factor 4 showed the strongest longitudinal increase among the key factors:
-
-- D3 − D0 ≈ +1.41
-- D7 − D0 ≈ +2.19
-- D7 − D3 ≈ +0.72
-
-This factor therefore captured a strong temporal component of the integrated molecular response.
-
-### Other Key Factors
-
-- **Factor 2** showed strong RNA-level contribution and significant longitudinal behavior.
-- **Factor 3** showed longitudinal changes and enrichment involving innate immunity, viral response, and TNF-related processes.
-- **Factor 6** showed protein-associated variation, clinical association, and enrichment involving cellular responses to lipopolysaccharide and bacterial defense.
+Six factors showed convergent evidence:
+- Factor 5: strong positive association with clinical acuity (Spearman ρ ≈ +0.654). Enrichment: adaptive immune response, immune system process.
+- Factor 1: strong negative association with clinical acuity (Spearman ρ ≈ −0.500). Enrichment: innate immune response, defense response to virus.
+- Factor 4: strongest longitudinal increase (D3−D0 ≈ +1.41, D7−D0 ≈ +2.19, D7−D3 ≈ +0.72).
+- Factor 2: strong RNA-level contribution and longitudinal behavior.
+- Factor 3: longitudinal changes with innate immunity, viral response, TNF-related processes.
+- Factor 6: protein-associated variation with LPS and bacterial defense response.
 
 ---
 
 ## 13. MOFA2 Feature Weights
 
-Feature weights were used to identify the molecular measurements contributing most strongly to each factor.
-
-For every factor, the top RNA and protein features were extracted and visualized.
-
-The interpretation follows:
-
-```
-
-MOFA2 Factor
-↓
-Top RNA Features
-+
-Top Protein Features
-↓
-Biological Pathways
-↓
-Clinical / Longitudinal Pattern
-
-```
-
-The repository contains dedicated RNA and protein feature-weight heatmaps.
+Feature weights were used to identify the molecular measurements contributing most strongly to each factor. Top RNA and protein features were extracted and visualized. Dedicated RNA and protein feature-weight heatmaps are included in the repository.
 
 ---
 
 ## 14. MOFA2 GO-BP Enrichment
 
-MOFA2 factor weights were analyzed using GO Biological Process gene sets.
-
-This analysis is distinct from the earlier DEG enrichment.
-
-- The earlier enrichment asks: **Which pathways are represented among differentially expressed genes?**
-- The MOFA2 enrichment asks: **Which biological processes are represented among the molecular features contributing strongly to a latent factor?**
-
-Across the six key factors, the analysis identified **204 significant factor–pathway associations** with biological themes involving immune, antiviral, inflammatory, and other disease-related processes.
+MOFA2 factor weights were analyzed using GO Biological Process gene sets. Across the six key factors, the analysis identified 204 significant factor–pathway associations with immune, antiviral, inflammatory, and disease-related themes.
 
 ---
 
 ## 15. Clinical Associations & Longitudinal Factor Trajectories
 
-MOFA2 factor scores were evaluated against clinical acuity and across longitudinal timepoints.
-
-The main trajectory framework was: **D0 → D3 → D7**
-
-Significant longitudinal changes were observed among the key factors.
-
-This analysis shifts the interpretation from individual genes and proteins toward coordinated multi-omic molecular programs changing over time.
+MOFA2 factor scores were evaluated against clinical acuity and across D0 → D3 → D7. Significant longitudinal changes were observed among key factors, shifting interpretation from individual genes/proteins toward coordinated multi-omic programs.
 
 ---
 
 ## 16. Biological Interpretation
 
-The combined transcriptomic, proteomic, longitudinal, and MOFA2 analyses highlighted several major biological themes.
-
-**Antiviral and Interferon Responses** — Strong antiviral and interferon-associated programs were identified across transcriptomic and integrated analyses.
-
-**Innate and Adaptive Immunity** — Multiple molecular layers showed coordinated immune-related processes involving innate and adaptive responses.
-
-**Inflammatory Signaling** — Inflammatory and TNF-associated programs were repeatedly observed across the molecular analyses.
-
-**Neutrophil Molecular Remodeling** — Longitudinal analyses demonstrated substantial changes in circulating neutrophil molecular states across disease timepoints.
-
-**Cell Cycle and DNA Replication** — The core transcriptomic signature highlighted coordinated cell-cycle, DNA-replication, and chromatin-related programs.
-
-**RNA–Protein Coordination** — MOFA2 provided a framework for identifying latent molecular programs representing coordinated variation across transcriptomic and plasma protein measurements.
+The combined analyses highlighted:
+- Antiviral and Interferon Responses
+- Innate and Adaptive Immunity
+- Inflammatory Signaling (including TNF-related)
+- Neutrophil Molecular Remodeling across timepoints
+- Cell Cycle and DNA Replication (core transcriptomic signature)
+- RNA–Protein Coordination via MOFA2 latent programs
 
 ---
 
@@ -573,103 +292,55 @@ The combined transcriptomic, proteomic, longitudinal, and MOFA2 analyses highlig
 
 ---
 
-## Main Figures
-
-The repository contains selected representative figures covering the major stages of the workflow:
-
-- RNA-seq PCA
-- Differential-expression volcano plot
-- Reactome GSEA
-- Core gene/PPI network
-- Proteomic differential-expression heatmap
-- MOFA2 variance explained
-- MOFA2 factor combination
-- MOFA2 factor trajectories
-- RNA feature-weight heatmap
-- Protein feature-weight heatmap
-- MOFA2 GO-BP enrichment
-- Factor–acuity associations
-
-Additional QC and supporting figures are available in the supplementary figures directory.
-
----
-
 ## Repository Structure
 
-```
-
-GSE212041_MOFA2_Project/
-│
-├── 01_Project_Overview/
-├── 02_Data/
-├── 03_Metadata/
-├── 04_Analysis/
-├── 05_Main_Figures/
-├── 06_Supplementary_Figures/
-├── 07_Network/
-├── 08_Scripts/
-├── 09_References/
-│
-├── README.md
-├── LICENSE
-└── .gitignore
-
-```
+| Folder | Contents |
+|--------|----------|
+| 01_Project_Overview/ | Workflow diagram, METHODS.md |
+| 02_Data/ | RNA-seq and Proteomics data folders |
+| 03_Metadata/ | Clinical and sample metadata (CSV) |
+| 04_Analysis/ | Analysis results (Differential Expression, Enrichment, Network, Proteomics) |
+| 05_Main_Figures/ | Main figures organized by analysis type (RNA, Proteomics, MOFA2, Network, PCA) |
+| 06_Supplementary_Figures/ | Supplementary figures |
+| 07_Network/ | Cytoscape and STRING network files |
+| 08_Scripts/ | Modular R scripts (00 to 13) |
+| 09_References/ | Bibliography and reference papers |
+| README.md | Project documentation |
+| LICENSE | MIT License |
+| .gitignore | Files excluded from the repository |
 
 ---
 
 ## Analysis Scripts
 
-```
+The workflow is organized into modular R scripts in 08_Scripts/:
 
-08_Scripts/
-│
-├── 00_Project_Setup.R
-├── 01_RNA_Preprocessing_QC.R
-├── 02_RNA_Differential_Expression.R
-├── 03_RNA_Enrichment_GSEA.R
-├── 04_Core_Signature_PPI.R
-├── 05_Longitudinal_RNA_Analysis.R
-├── 06_Proteomics_QC.R
-├── 07_Proteomics_Differential_Analysis.R
-├── 08_Proteomics_Enrichment.R
-├── 09_RNA_Proteomics_Matching.R
-├── 10_MOFA2_Preparation.R
-├── 11_MOFA2_Training.R
-├── 12_MOFA2_Downstream_Analysis.R
-└── 13_Final_Figures_Tables.R
-
-```
+| Script | Purpose |
+|--------|---------|
+| 00_Project_Setup.R | Libraries and project setup |
+| 01_RNA_Preprocessing_QC.R | RNA-seq QC and preprocessing |
+| 02_RNA_Differential_Expression.R | Primary DE analysis (COVID vs symptomatic) |
+| 03_RNA_Enrichment_GSEA.R | Functional enrichment and GSEA |
+| 04_Core_Signature_PPI.R | Core gene signature and PPI network |
+| 05_Longitudinal_RNA_Analysis.R | Longitudinal transcriptomic analysis |
+| 06_Proteomics_QC.R | Olink proteomics QC |
+| 07_Proteomics_Differential_Analysis.R | Proteomic DE analysis |
+| 08_Proteomics_Enrichment.R | Proteomic enrichment |
+| 09_RNA_Proteomics_Matching.R | Patient-timepoint matching |
+| 10_MOFA2_Preparation.R | MOFA2 input preparation |
+| 11_MOFA2_Training.R | MOFA2 model training |
+| 12_MOFA2_Downstream_Analysis.R | Factor analysis and interpretation |
+| 13_Final_Figures_Tables.R | Final figures and tables |
 
 ---
 
 ## Software & Methods
 
-The project was developed primarily in **R 4.6.1**.
+Developed primarily in R 4.6.1.
 
-Major packages and tools include:
+Major packages: GEOquery, DESeq2, edgeR, limma, ggplot2, pheatmap, dplyr, readxl, clusterProfiler, ReactomePA, org.Hs.eg.db, AnnotationDbi, STRINGdb, enrichplot, MOFA2, reticulate, Python / mofapy2.
 
-- GEOquery
-- DESeq2
-- edgeR
-- limma
-- ggplot2
-- pheatmap
-- dplyr
-- readxl
-- clusterProfiler
-- ReactomePA
-- org.Hs.eg.db
-- AnnotationDbi
-- STRINGdb
-- enrichplot
-- MOFA2
-- reticulate
-- Python / mofapy2
-
-The workflow combines:
-
-**RNA-seq → Differential Expression → Enrichment → GSEA → Network Analysis → Longitudinal Analysis → Proteomics → Metadata Integration → Multi-Omics Integration → MOFA2 → Biological Interpretation**
+Workflow: RNA-seq → Differential Expression → Enrichment → GSEA → Network Analysis → Longitudinal Analysis → Proteomics → Metadata Integration → Multi-Omics Integration → MOFA2 → Biological Interpretation.
 
 ---
 
@@ -677,20 +348,7 @@ The workflow combines:
 
 The main purpose of this project was to transform a self-learning journey in R into a complete scientific workflow using real biological data and real clinical/sample metadata.
 
-The project gradually connected:
-
-- R programming
-- Data manipulation
-- Data visualization
-- Statistics
-- RNA-seq analysis
-- Proteomics
-- Longitudinal analysis
-- Network analysis
-- Multi-omics integration
-- Biological interpretation
-
-Rather than keeping the learning process limited to tutorials or isolated code examples, the goal was to build an end-to-end computational biology project.
+The project gradually connected R programming, data manipulation, visualization, statistics, RNA-seq analysis, proteomics, longitudinal analysis, network analysis, multi-omics integration, and biological interpretation — moving beyond tutorials toward an end-to-end computational biology project.
 
 ---
 
@@ -700,41 +358,9 @@ This project integrates longitudinal neutrophil transcriptomics and plasma prote
 
 The workflow moves from individual genes and proteins to pathways, networks, longitudinal changes, and finally integrated latent molecular programs using MOFA2.
 
-The combined results highlight coordinated molecular patterns involving:
+The combined results highlight coordinated molecular patterns involving antiviral and interferon responses, innate and adaptive immunity, inflammatory signaling, neutrophil remodeling, cell-cycle and DNA-replication programs, RNA–protein coordination, and longitudinal molecular changes associated with clinical severity.
 
-- Antiviral and interferon responses
-- Innate and adaptive immunity
-- Inflammatory signaling
-- Neutrophil remodeling
-- Cell-cycle and DNA-replication programs
-- RNA–protein coordination
-- Longitudinal molecular changes associated with clinical severity
-
-The project demonstrates how multiple biological data layers can be integrated into a reproducible computational framework for multi-omic interpretation.
-
-```
-
-R
-↓
-Data Analysis
-↓
-RNA-seq
-↓
-Proteomics
-↓
-Longitudinal Analysis
-↓
-Network Analysis
-↓
-Multi-Omics Integration
-↓
-MOFA2
-↓
-Biological Interpretation
-
-```
-
-**This is my first project — but definitely not my last.**
+This is my first project — but definitely not my last.
 
 ---
 
@@ -744,6 +370,7 @@ Biological Interpretation
 
 Feedback, suggestions, scientific discussion, and constructive criticism are welcome.
 
-**From learning R to analyzing real biological data.**  
-**From writing code to building a complete project.**
-```
+From learning R to analyzing real biological data.  
+From writing code to building a complete project.
+`
+
